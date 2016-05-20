@@ -14,38 +14,45 @@ Tree.prototype.addChild = function(child){
   return this;
 };
 
-Tree.prototype.getClosestCommonAncestor = function(){
-  // TODO: implement me!
+Tree.prototype.getClosestCommonAncestor = function(a, b){
+  var commonAncestor;
+
+  if(a === this || b === this) {
+    return this;
+  }
+  var arrayA = this.getAncestorPath(a);
+  var arrayB = this.getAncestorPath(b);
+
+  if(arrayA === null || arrayB === null) {
+    return null;
+  }
+
+  for(var i = 0; i < arrayA.length - 1; i++) {
+    for(var j = 0; j < arrayB.length - 1; j++) {
+      if(arrayA[i] === arrayB[j]) {
+        commonAncestor = arrayA[i];
+      }
+    }
+  }
+
+  return commonAncestor;
 }
 
 Tree.prototype.getAncestorPath = function(target){
-  var result;
-
-  var recurse = function(node, build) {
-    var build = build || [];
-    if(node !== target && node.children.length === 0) {
-      return;
-    }
-    if(node.children.length) {
-      build.push(node);
-      for(var i = 0; i < node.children.length; i++) {
-        if(target === node.children[i]) {
-          build.push(node.children[i]);
-          result = build;
-          return;
-        }
-        recurse(node.children[i], build);
-      }
-    } 
-  }
-
-  recurse(this);
-
-  if(result === undefined) {
+  if(!this.isDescendant(target)) {
     return null;
+  } else {
+    for(var i = 0; i < this.children.length; i++) {
+      if(this.children[i] === target) {
+        return [this, this.children[i]];
+      } else {
+        if(this.children[i].isDescendant(target)) {
+          return [this].concat(this.children[i].getAncestorPath(target));
+        }
+      }
+    }
   }
-  
-  return result;
+
 }
 
 /**
@@ -79,15 +86,3 @@ Tree.prototype.removeChild = function(child){
     throw new Error("That node is not an immediate child of this tree");
   }
 };
-
-// test
-var grandma = new Tree();
-var mom = new Tree();
-var uncle = new Tree();
-grandma.addChild(mom);
-grandma.addChild(uncle);
-var me = new Tree();
-mom.addChild(me);
-
-var test = grandma.getAncestorPath(me);
-console.log('Expected: [grandma, mom, me]: ', test)
