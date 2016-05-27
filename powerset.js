@@ -1,67 +1,22 @@
-var Range = function(start, end, step) {
-  this.start = start;
-  this.end = end;
-  this.step = step;
-};
+// "a" => [" ", "a"]
+// "ab" => [" ", "a", "ab", "b"]
 
-Range.prototype.size = function () {
-  if(!this.step && this.start && this.end) {
-    return this.end - this.start + 1;
-  } else if(this.start && !this.end) {
-    return 1;
-  } else {
-    return Math.floor(this.end/this.step);
-  }
-};
-
-Range.prototype.each = function (callback) {
-  if(this.end !== undefined && this.step !== undefined) {
-    if(this.end > this.start) {
-      for(var i = this.start; i <= this.end; i = i + this.step) {
-        callback(i);
-      }
-    } else {
-      for(var i = this.start; i >= this.end; i = i + this.step) {
-        callback(i);
-      }
+function powerSet (string) {
+  var obj = {};
+  var recurse = function(str) {
+    obj[str] = true;
+    for(var i = 0; i < str.length; i++) {
+      var chunk = string.splice(i, str.length - 1 + i)
+      recurse(chunk);
     }
   }
+  recurse(string);
+  return Object.keys(obj);
+}
+// set final array
+// iterate through string
+  // push each item into final array
 
-  else if(this.end === undefined) {
-    callback(this.start);
-  }
+// push entire string into final array
 
-  else if(this.end !== undefined && this.step === undefined) {
-    if(this.end < this.start) {
-      for(var i = this.start; i >= this.end; i--) {
-        callback(i);
-      }
-    } else {
-      for(var i = this.start; i <= this.end; i++) {
-        callback(i);
-      }
-    }
-  }
-
-};
-
-Range.prototype.includes = function (val) {
-  var result = false;
-  if(this.end === undefined) {
-    if(this.start === val) {
-      result = true;
-    }
-  } else {
-    Range.prototype.each(function(item) {
-      if(item === val) {
-        result = true;
-      }
-    });
-  }
-
-  return result;
-};
-
-var x = new Range(3, 100, 3);
-var y = x.includes(3);
-console.log(y);
+// return final array
