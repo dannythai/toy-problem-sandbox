@@ -1,3 +1,4 @@
+// converts decimals into fractions
 function fractionConverter (number) {
   var denominator = 1;
   var numerator = number;
