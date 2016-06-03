@@ -2,15 +2,18 @@
 // "ab" => [" ", "a", "ab", "b"]
 
 function powerSet (string) {
-  var obj = {};
-  var recurse = function(str) {
-    obj[str] = true;
+  var obj = {"":true};
+  var strArr = string.split('').sort();
+  var recurse = function(curr, str) {
+    debugger;
     for(var i = 0; i < str.length; i++) {
-      var chunk = string.splice(i, str.length - 1 + i)
-      recurse(chunk);
+      var build = curr + str[i];
+      obj[build] = true;
+      recurse(build, str.slice(i+1));
     }
   }
-  recurse(string);
+  recurse("", strArr);
+
   return Object.keys(obj);
 }
 // set final array
