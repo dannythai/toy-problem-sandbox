@@ -16,12 +16,7 @@ var options = {
 function telephoneWords (digitString) {
   var combos = [];
 
-  // for(var i = 0; i < digitString.length; i++) {
-  //   var number = digitString.charAt(i);
-  // }
-
   var recurse = function(currStr) {
-    // Base
     if(currStr.length === digitString.length) {
       combos.push(currStr);
       return;
@@ -30,12 +25,9 @@ function telephoneWords (digitString) {
     for(var i = 0; i < letters.length; i++) {
       recurse(currStr + letters[i]);
     }
-
   }
-  
+
   recurse("");
 
   return combos;
 }
-
-console.log(telephoneWords("0002"));
