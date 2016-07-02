@@ -21,7 +21,7 @@ function telephoneWords (digitString) {
       combos.push(currStr);
       return;
     }
-    var letters = options[digitString.charAt(currStr.length)]
+    var letters = options[digitString.charAt(currStr.length)];
     for(var i = 0; i < letters.length; i++) {
       recurse(currStr + letters[i]);
     }
