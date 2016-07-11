@@ -1,3 +1,4 @@
+// reverse the sequence of digits in a given integer
 function reverseInteger (n) {
   var reverse = 0;
   while(n !== 0) {
